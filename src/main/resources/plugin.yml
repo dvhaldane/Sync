@@ -1,0 +1,17 @@
+name: Sync
+main: net.kaikk.mc.sync.Sync
+version: 1.1
+author: KaiNoMood
+
+commands:
+   sync:
+      description: Main sync command
+      
+
+permissions:
+    sync.use:
+        description: Permits all commands in all servers  
+        default: op
+    sync.reload:
+        description: Reloads the plugin
+        default: op

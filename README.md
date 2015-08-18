@@ -2,6 +2,9 @@
 Very useful if you own more than one server and want to run a command to the other server without switching between servers.
 The commands are run as console.
 
+## Download
+All builds for my plugins can be found at this link: http://kaikk.net/mc/
+
 ####Commands
 ######/sync list
 - shows a list with all servers name

@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.bukkit.command.CommandException;
 import org.bukkit.scheduler.BukkitRunnable;
 
 class QueryTask extends BukkitRunnable {
@@ -30,7 +29,7 @@ class QueryTask extends BukkitRunnable {
 				Sync.instance.getLogger().info("Received command: "+results.getString(1));
 				try {
 					Sync.instance.getServer().dispatchCommand(Sync.instance.getServer().getConsoleSender(), results.getString(1));
-				} catch (CommandException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				count++;

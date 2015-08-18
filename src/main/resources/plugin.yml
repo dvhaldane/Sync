@@ -1,6 +1,6 @@
 name: Sync
 main: net.kaikk.mc.sync.Sync
-version: 1.1
+version: 1.4
 author: KaiNoMood
 
 commands:

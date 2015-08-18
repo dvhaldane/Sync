@@ -64,28 +64,50 @@ public class Sync extends JavaPlugin {
 				return false;
 			}
 			
+			if (args.length==3 && args[1].equalsIgnoreCase("sync") && !(args[2].equalsIgnoreCase("reload") || args[2].equalsIgnoreCase("list"))) {
+				sender.sendMessage("You can't sync a sync command!");
+				return false;
+			}
+			
+			String command=mergeStringArrayFromIndex(args, 1);
+			
 			if (args[0].equalsIgnoreCase("all")) {
 				for (String tableName : this.ds.allServersTableName) {
-					this.ds.dbQueue.add("INSERT INTO sync_srv_"+tableName+" VALUES(\""+mergeStringArrayFromIndex(args, 1)+"\")");
+					this.ds.dbQueue.add("INSERT INTO sync_srv_"+tableName+" VALUES(\""+command.replace("\"", "\\\"")+"\")");
 				}
 				sender.sendMessage("Sync will execute the command to all servers.");
+				this.getServer().getLogger().info(sender.getName()+" run sync "+args[0]+" "+command);
 				return true;
 			}
 
 			String[] servers = args[0].split(",");
-
+			
 			for (String tableName : servers) {
 				if (this.ds.allServersTableName.contains(tableName)) {
-					this.ds.dbQueue.add("INSERT INTO sync_srv_"+tableName+" VALUES(\""+mergeStringArrayFromIndex(args, 1)+"\")");
+					this.ds.dbQueue.add("INSERT INTO sync_srv_"+tableName+" VALUES(\""+command.replace("\"", "\\\"")+"\")");
 				} else {
 					sender.sendMessage("Server "+tableName+" doesn't exist.");
 				}
 			}
 			sender.sendMessage("Sync will execute the command to specified servers.");
+			this.getServer().getLogger().info(sender.getName()+" run sync "+args[0]+" "+command);
 			return true;
 		}
 		
 		return false;
+	}
+	
+	// API
+	public static boolean sync(String serverName, String command) {
+		if (!instance.ds.allServersTableName.contains(serverName)) {
+			return false;
+		}
+		instance.ds.dbQueue.add("INSERT INTO sync_srv_"+serverName+" VALUES(\""+command.replace("\"", "\\\"")+"\")");
+		return true;
+	}
+	
+	public static String[] servers() {
+		return instance.ds.allServersTableName.toArray(new String[instance.ds.allServersTableName.size()]);
 	}
 	
 	static String mergeStringArrayFromIndex(String[] arrayString, int i) {
